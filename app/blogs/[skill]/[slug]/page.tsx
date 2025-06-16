@@ -1,3 +1,18 @@
+import { Metadata } from 'next';
+
+interface Props {
+  params: {
+    skill: string;
+    slug: string;
+  };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `${params.slug} | ${params.skill} Blog`
+  };
+}
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
