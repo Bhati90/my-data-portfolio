@@ -110,32 +110,32 @@ interface CommandExamples {
   Advanced: SQLExample[];
   Architecture: SQLExample[];
 }
-  useEffect(() => {
-    let index = 0;
-    let commandIndex = 0;
-    const typeText = () => {
-      if (commandIndex < sqlCommands.length) {
-        if (index < sqlCommands[commandIndex].length) {
-          setTerminalText(prev => prev + sqlCommands[commandIndex][index]);
-          index++;
-        } else {
-          setTimeout(() => {
-            setTerminalText(prev => prev + '\n$ ');
-            commandIndex++;
-            index = 0;
-          }, 1000);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   let index = 0;
+  //   let commandIndex = 0;
+  //   const typeText = () => {
+  //     if (commandIndex < sqlCommands.length) {
+  //       if (index < sqlCommands[commandIndex].length) {
+  //         setTerminalText(prev => prev + sqlCommands[commandIndex][index]);
+  //         index++;
+  //       } else {
+  //         setTimeout(() => {
+  //           setTerminalText(prev => prev + '\n$ ');
+  //           commandIndex++;
+  //           index = 0;
+  //         }, 5000);
+  //       }
+  //     }
+  //   };
 
-    const interval = setInterval(typeText, 50);
-    return () => clearInterval(interval);
-  }, []);
+  //   const interval = setInterval(typeText, 500);
+  //   return () => clearInterval(interval);
+  // }, []);
 
  useEffect(() => {
   const interval = setInterval(() => {
     setCurrentStep(prev => (prev + 1) % pipelineSteps.length);
-  }, 2000);
+  }, 5000);
   return () => clearInterval(interval);
 }, []);
 
@@ -488,80 +488,78 @@ const SQLTerminal = () => {
 };
 
   const AnalyticsDashboard = () => (
-   
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in motion-safe:transition-all motion-safe:duration-3600 motion-safe:ease-in-out">
-{/* Project Domain Pie Chart */}
-<div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-transform transform hover:scale-[1.02]">
-  <h4 className="text-xl font-semibold text-white mb-4">Project Domain Distribution</h4>
-  <ResponsiveContainer width="100%" height={250}>
-    <PieChart>
-      <Pie
-        data={domainData}
-        dataKey="value"
-        nameKey="name"
-        cx="50%"
-        cy="50%"
-        outerRadius={80}
-        label={({ name, value }) => `${name}: ${value}%`}
-      >
-        {domainData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={entry.color} />
-        ))}
-      </Pie>
-      <Tooltip />
-    </PieChart>
-  </ResponsiveContainer>
-</div>
+   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    {/* Project Domain Pie Chart */}
+    <div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transform hover:scale-[1.02]">
+      <h4 className="text-xl font-semibold text-white mb-4">Project Domain Distribution</h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <PieChart>
+          <Pie
+            data={domainData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            label={({ name, value }) => `${name}: ${value}%`}
+          >
+            {domainData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
 
-{/* Skill Radar Chart */}
-<div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-transform transform hover:scale-[1.02]">
-  <h4 className="text-xl font-semibold text-white mb-4">Skill Strength Radar</h4>
-  <ResponsiveContainer width="100%" height={250}>
-    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={fullSkillsRadar}>
-      <PolarGrid stroke="#444" />
-      <PolarAngleAxis dataKey="skill" stroke="#ccc" />
-      <PolarRadiusAxis stroke="#ccc" />
-      <Radar name="Skill" dataKey="value" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.6} />
-      <Tooltip />
-    </RadarChart>
-  </ResponsiveContainer>
-</div>
+    {/* Skill Radar Chart */}
+    <div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transform hover:scale-[1.02]">
+      <h4 className="text-xl font-semibold text-white mb-4">Skill Strength Radar</h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={fullSkillsRadar}>
+          <PolarGrid stroke="#444" />
+          <PolarAngleAxis dataKey="skill" stroke="#ccc" />
+          <PolarRadiusAxis stroke="#ccc" />
+          <Radar name="Skill" dataKey="value" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.6} />
+          <Tooltip />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
 
-{/* Project Time vs Tech Complexity */}
-<div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-transform transform hover:scale-[1.02] lg:col-span-2">
-  <h4 className="text-xl font-semibold text-white mb-4">Project Effort Analysis</h4>
-  <ResponsiveContainer width="100%" height={250}>
-    <AreaChart data={projectTechEffort}>
-      <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-      <XAxis dataKey="name" stroke="#ccc" />
-      <YAxis stroke="#ccc" />
-      <Tooltip />
-      <Area type="monotone" dataKey="time" stackId="1" stroke="#3B82F6" fill="#3B82F6" />
-      <Area type="monotone" dataKey="tech" stackId="1" stroke="#EF4444" fill="#EF4444" />
-    </AreaChart>
-  </ResponsiveContainer>
-</div>
-{/* NEW: Project Technology Usage Bar Chart */}
-<div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-transform transform hover:scale-[1.02] lg:col-span-2">
-  <h4 className="text-xl font-semibold text-white mb-4">Technology Usage per Project</h4>
-  <ResponsiveContainer width="100%" height={300}>
-    <BarChart data={projectTechnologyBreakdown} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-      <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-      <XAxis dataKey="name" stroke="#ccc" />
-      <YAxis stroke="#ccc" />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="Python" stackId="a" fill="#3B82F6" />
-      <Bar dataKey="SQL" stackId="a" fill="#10B981" />
-      <Bar dataKey="Docker" stackId="a" fill="#F59E0B" />
-      <Bar dataKey="MLflow" stackId="a" fill="#8B5CF6" />
-      <Bar dataKey="Tableau" stackId="a" fill="#EC4899" />
-    </BarChart>
-  </ResponsiveContainer>
-</div>
+    {/* Project Effort Area Chart */}
+    <div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] lg:col-span-2">
+      <h4 className="text-xl font-semibold text-white mb-4">Project Effort Analysis</h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <AreaChart data={projectTechEffort}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+          <XAxis dataKey="name" stroke="#ccc" />
+          <YAxis stroke="#ccc" />
+          <Tooltip />
+          <Area type="monotone" dataKey="time" stackId="1" stroke="#3B82F6" fill="#3B82F6" />
+          <Area type="monotone" dataKey="tech" stackId="1" stroke="#EF4444" fill="#EF4444" />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
 
-
-</div>
+    {/* Project Technology Usage Bar Chart */}
+    <div className="bg-gray-900 rounded-2xl p-6 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] lg:col-span-2">
+      <h4 className="text-xl font-semibold text-white mb-4">Technology Usage per Project</h4>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={projectTechnologyBreakdown} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+          <XAxis dataKey="name" stroke="#ccc" />
+          <YAxis stroke="#ccc" />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Python" stackId="a" fill="#3B82F6" />
+          <Bar dataKey="SQL" stackId="a" fill="#10B981" />
+          <Bar dataKey="Docker" stackId="a" fill="#F59E0B" />
+          <Bar dataKey="MLflow" stackId="a" fill="#8B5CF6" />
+          <Bar dataKey="Tableau" stackId="a" fill="#EC4899" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
   );
 
   const  Clouds= () => (
@@ -666,17 +664,17 @@ const SQLTerminal = () => {
       </div>
     </div>
      </div>
-<div className='m-6'>
+<div className='mt-6'>
   <SQLTerminal/>
 </div>
-   <div className='m-8'>
+   <div className='mt-8'>
   <AnalyticsDashboard/>
 </div>
-<div className='m-7'>
+<div className='mt-5'>
   <Clouds/>
 </div>
    
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
               {[
                 {
                   title: "Lexify - AI Research Assistant",
