@@ -19,7 +19,7 @@ import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 
-export default function BlogPost({ params }: { params: { skill: string; slug: string } }) {
+export default async function BlogPost({ params }: Props) {
   const filePath = path.join(process.cwd(), 'public/blogs', params.skill, `${params.slug}.md`);
   if (!fs.existsSync(filePath)) return notFound();
 
