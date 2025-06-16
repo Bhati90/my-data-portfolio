@@ -139,65 +139,6 @@ interface CommandExamples {
   return () => clearInterval(interval);
 }, []);
 
-const PipelineFlow = () => (
-  <div className="relative bg-gray-900 rounded-xl p-8 overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
-    <h3 className="text-2xl font-bold text-white mb-8 text-center">Data Pipeline Architecture</h3>
-
-    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-      {pipelineSteps.map((step, index) => {
-        const Icon = step.icon;
-        const isActive = index === currentStep;
-
-        const colorClass =
-          index < currentStep ? 'bg-green-500' :
-          index === currentStep ? 'bg-blue-500 shadow-lg shadow-blue-500/50 scale-110' :
-          'bg-gray-600';
-
-        return (
-          <div key={step.id} className="flex flex-col items-center relative">
-            <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${colorClass}`}>
-              <Icon className="w-8 h-8 text-white" />
-            </div>
-            <p className="text-white text-sm mt-2 text-center max-w-20">{step.name}</p>
-
-            {/* Line connector */}
-            {index < pipelineSteps.length - 1 && (
-              <div
-                className="absolute sm:top-8 sm:left-full sm:ml-2 sm:w-20 h-1 sm:h-1 sm:translate-y-[-50%] w-1 h-20 top-full left-1/2 transform -translate-x-1/2"
-              >
-                <div
-                  className={`w-full h-full transition-all duration-500 ${
-                    index < currentStep ? 'bg-green-500' : index === currentStep ? 'bg-blue-500' : 'bg-gray-600'
-                  }`}
-                ></div>
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-
-    {/* Data flow animation */}
-    <div className="mt-8 bg-gray-800 rounded-lg p-4">
-      <div className="flex items-center justify-between text-sm text-gray-300 flex-wrap gap-2">
-        <span>Raw Data: 1.2M records</span>
-        <span>→</span>
-        <span>Cleaned: 1.18M records</span>
-        <span>→</span>
-        <span>Transformed: 1.15M records</span>
-        <span>→</span>
-        <span>Model Ready: 100%</span>
-      </div>
-      <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-        <div
-          className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-1000"
-          style={{ width: `${((currentStep + 1) / pipelineSteps.length) * 100}%` }}
-        ></div>
-      </div>
-    </div>
-  </div>
-);
 
 //   const SQLTerminal = () => {
 //   const [activeTab, setActiveTab] = useState<SQLTab>('DDL');
@@ -666,6 +607,121 @@ const SQLTerminal = () => {
 </div>
   );
 
+  const PipelineFlow = () => (
+    <div className='mb-8'>
+  <div className="relative bg-gray-900 rounded-xl p-8 overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+    <h3 className="text-2xl font-bold text-white mb-8 text-center">Data Pipeline Architecture</h3>
+
+    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+      {pipelineSteps.map((step, index) => {
+        const Icon = step.icon;
+        const isActive = index === currentStep;
+
+        const colorClass =
+          index < currentStep ? 'bg-green-500' :
+          index === currentStep ? 'bg-blue-500 shadow-lg shadow-blue-500/50 scale-110' :
+          'bg-gray-600';
+
+        return (
+          <div key={step.id} className="flex flex-col items-center relative">
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${colorClass}`}>
+              <Icon className="w-8 h-8 text-white" />
+            </div>
+            <p className="text-white text-sm mt-2 text-center max-w-20">{step.name}</p>
+
+            {/* Line connector */}
+            {index < pipelineSteps.length - 1 && (
+              <div
+                className="absolute sm:top-8 sm:left-full sm:ml-2 sm:w-20 h-1 sm:h-1 sm:translate-y-[-50%] w-1 h-20 top-full left-1/2 transform -translate-x-1/2"
+              >
+                <div
+                  className={`w-full h-full transition-all duration-500 ${
+                    index < currentStep ? 'bg-green-500' : index === currentStep ? 'bg-blue-500' : 'bg-gray-600'
+                  }`}
+                ></div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    {/* Data flow animation */}
+    <div className="mt-8 bg-gray-800 rounded-lg p-4">
+      <div className="flex items-center justify-between text-sm text-gray-300 flex-wrap gap-2">
+        <span>Raw Data: 1.2M records</span>
+        <span>→</span>
+        <span>Cleaned: 1.18M records</span>
+        <span>→</span>
+        <span>Transformed: 1.15M records</span>
+        <span>→</span>
+        <span>Model Ready: 100%</span>
+      </div>
+      <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+        <div
+          className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-1000"
+          style={{ width: `${((currentStep + 1) / pipelineSteps.length) * 100}%` }}
+        ></div>
+      </div>
+    </div>
+     </div>
+<div className='m-6'>
+  <SQLTerminal/>
+</div>
+   <div className='m-8'>
+  <AnalyticsDashboard/>
+</div>
+<div className='m-7'>
+  <Clouds/>
+</div>
+   
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  title: "Lexify - AI Research Assistant",
+                  period: "Jan 2025 - Apr 2025",
+                  description: "Built LLM-powered research assistant with ArXiv API integration, Qdrant vector DB for RAG, and comprehensive data pipeline for PDF processing.",
+                  tech: ["Python", "LLM", "Vector DB", "API Integration"],
+                  color: "from-blue-500 to-purple-600"
+                },
+                {
+                  title: "Anime Recommender System",
+                  period: "Apr 2025 - Jun 2025",
+                  description: "Developed scalable ML recommendation system with Comet tracking, DVC version control, Jenkins CI/CD, and GCP deployment.",
+                  tech: ["ML", "Jenkins", "GCP", "DVC", "Comet"],
+                  color: "from-green-500 to-blue-500"
+                },
+                {
+                  title: "Phishing Detection Pipeline",
+                  period: "Jun 2025 - Present",
+                  description: "Built end-to-end ETL pipeline: Data Ingestion → Validation → Transformation → Training → Deployment with MongoDB and AWS integration.",
+                  tech: ["ETL", "MongoDB", "MLflow", "AWS", "Dagshub"],
+                  color: "from-red-500 to-orange-500"
+                }
+              ].map((project, index) => (
+                <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+                  <div className={`w-full h-2 bg-gradient-to-r ${project.color} rounded-full mb-4`}></div>
+                  <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+                  <p className="text-blue-400 text-sm mb-3">{project.period}</p>
+                  <p className="text-gray-300 mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech, i) => (
+                      <span key={i} className="px-3 py-1 bg-gray-800 text-blue-400 rounded-full text-xs">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+
+
+  </div>
+  
+);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
   
@@ -812,6 +868,7 @@ const SQLTerminal = () => {
           )}
         </section>
 
+       
         {/* Skills Section */}
  <section className="mb-12">
   <h3 className="text-2xl font-bold text-white mb-6 text-center">Technical Expertise</h3>
