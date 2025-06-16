@@ -86,15 +86,15 @@ const projectTechnologyBreakdown = [
   { name: 'Phishing Detection', Python: 35, SQL: 20, Docker: 15, MLflow: 20, Tableau: 0 }
 ];
   // Terminal animation
-//   const sqlCommands = [
-//     "SELECT * FROM user_data WHERE created_at > '2024-01-01';",
-//     "CREATE PIPELINE etl_workflow AS (",
-//     "  COPY INTO staging_table FROM s3://data-bucket/",
-//     "  TRANSFORM data USING python_udf()",
-//     "  LOAD INTO production_table",
-//     ");",
-//     "SHOW PIPELINE STATUS;"
-//   ];
+  const sqlCommands = [
+    "SELECT * FROM user_data WHERE created_at > '2024-01-01';",
+    "CREATE PIPELINE etl_workflow AS (",
+    "  COPY INTO staging_table FROM s3://data-bucket/",
+    "  TRANSFORM data USING python_udf()",
+    "  LOAD INTO production_table",
+    ");",
+    "SHOW PIPELINE STATUS;"
+  ];
 
 type SQLTab = 'DDL' | 'DML' | 'Advanced' | 'Architecture';
 
@@ -110,34 +110,34 @@ interface CommandExamples {
   Advanced: SQLExample[];
   Architecture: SQLExample[];
 }
-//   useEffect(() => {
-//     let index = 0;
-//     let commandIndex = 0;
-//     const typeText = () => {
-//       if (commandIndex < sqlCommands.length) {
-//         if (index < sqlCommands[commandIndex].length) {
-//           setTerminalText(prev => prev + sqlCommands[commandIndex][index]);
-//           index++;
-//         } else {
-//           setTimeout(() => {
-//             setTerminalText(prev => prev + '\n$ ');
-//             commandIndex++;
-//             index = 0;
-//           }, 1000);
-//         }
-//       }
-//     };
+  useEffect(() => {
+    let index = 0;
+    let commandIndex = 0;
+    const typeText = () => {
+      if (commandIndex < sqlCommands.length) {
+        if (index < sqlCommands[commandIndex].length) {
+          setTerminalText(prev => prev + sqlCommands[commandIndex][index]);
+          index++;
+        } else {
+          setTimeout(() => {
+            setTerminalText(prev => prev + '\n$ ');
+            commandIndex++;
+            index = 0;
+          }, 1000);
+        }
+      }
+    };
 
-//     const interval = setInterval(typeText, 50);
-//     return () => clearInterval(interval);
-//   }, []);
+    const interval = setInterval(typeText, 50);
+    return () => clearInterval(interval);
+  }, []);
 
-//  useEffect(() => {
-//   const interval = setInterval(() => {
-//     setCurrentStep(prev => (prev + 1) % pipelineSteps.length);
-//   }, 2000);
-//   return () => clearInterval(interval);
-// }, []);
+ useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentStep(prev => (prev + 1) % pipelineSteps.length);
+  }, 2000);
+  return () => clearInterval(interval);
+}, []);
 
 const PipelineFlow = () => (
   <div className="relative bg-gray-900 rounded-xl p-8 overflow-hidden">
